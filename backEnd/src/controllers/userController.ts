@@ -9,7 +9,7 @@ import {
 
 export const createUser: RequestHandler = async (req, res, next) => {
   let newUser: User = req.body
-  if (newUser.username && newUser.password) {
+  if (newUser.firstName && newUser.lastName && newUser.email && newUser.username && newUser.password) {
     let hashedPassword = await hashPassword(newUser.password)
     newUser.password = hashedPassword
     let created = await User.create(newUser)
@@ -22,7 +22,7 @@ export const createUser: RequestHandler = async (req, res, next) => {
       password: created.password,
     })
   } else {
-    res.status(400).send('Username and password required')
+    res.status(400).send('Please fill out all required fields')
   }
 }
 
