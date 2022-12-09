@@ -9,20 +9,19 @@ import {
 
 export const createUser: RequestHandler = async (req, res, next) => {
   let newUser: User = req.body
-  if (newUser.firstName && newUser.lastName && newUser.email && newUser.username && newUser.password) {
-    let hashedPassword = await hashPassword(newUser.password)
-    newUser.password = hashedPassword
-    let created = await User.create(newUser)
-    res.status(201).json({
-      userId: created.userId,
-      firstName: created.firstName,
-      lastName: created.lastName,
-      email: created.email,
-      username: created.username,
-      password: created.password,
-    })
+  if (newUser.username && newUser.email && newUser.display_name) {
+    try {
+      let created = await User.create(newUser)
+      res.status(201).json({
+        username: created.username,
+        email: created.email,
+        display_name: created.display_name
+      })
+    } catch (error) {
+      console.log(error)
+    }
   } else {
-    res.status(400).send('Please fill out all required fields')
+    res.status(400).send('Username and password required')
   }
 }
 
