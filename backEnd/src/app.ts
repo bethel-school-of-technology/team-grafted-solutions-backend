@@ -9,6 +9,7 @@ import { db } from './models'
 import messageRoutes from './routes/messageRoutes'
 import songRoutes from './routes/songRoutes'
 import userRoutes from './routes/userRoutes'
+import friendRoutes from './routes/friendRoutes'
 
 const app = express()
 app.use(cors())
@@ -75,6 +76,7 @@ app.get('/lyrics', async (req, res) => {
 app.use('/messages', messageRoutes)
 app.use('/users', userRoutes)
 app.use('/songs', songRoutes)
+app.use('/friends', friendRoutes)
 
 app.use((req: Request, res: Response, next: NextFunction) => {
   res.status(404).end()
