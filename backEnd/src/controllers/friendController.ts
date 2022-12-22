@@ -37,16 +37,28 @@ export const deleteFriendsByID: RequestHandler = async (req, res) => {
 };
 
 export const getAllFriends: RequestHandler = async (req, res, next) => {
-  let Friends: Friend[] = await Friend.findAll()
-  res.status(200).json(Friends)
+  let friends: any = await Friend.findAll()
+  res.status(200).json(friends)
 }
 
 export const searchFriends: RequestHandler = async (req, res) => {
-  let search = req.params.searchTerm
+  try {
+    let search = req.params.searchTerm;
+    const friends = await Friend.findAll({
+      where: { display_name: search }
+    });
+    
+    if (friends.length > 0) {
+      
+      res.status(200).json(friends);
+  
+      }
+      else {
+          res.status(200).send({});
+      }
 
-  let friend = await Friend.findAll({
-    where: { display_name: search },
-  }).then((response) => {
-    res.status(200).json(response)
-  })
-}
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error searching for friends');
+  }
+};

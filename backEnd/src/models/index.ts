@@ -1,6 +1,7 @@
 import { Sequelize } from "sequelize";
 import { AssociateUserMessage, MessageFactory } from "./message";
 import { AssociateUserSong, SongFactory } from "./song";
+import { AssociateUserFriend, FriendFactory } from "./friend";
 import { UserFactory } from "./user";
 
 const dbName = 'socialvibez';
@@ -16,7 +17,9 @@ const sequelize = new Sequelize(dbName, username, password, {
 MessageFactory(sequelize);
 UserFactory(sequelize);
 SongFactory(sequelize);
+FriendFactory(sequelize);
 AssociateUserMessage();
 AssociateUserSong();
+AssociateUserFriend();
 
 export const db = sequelize;
