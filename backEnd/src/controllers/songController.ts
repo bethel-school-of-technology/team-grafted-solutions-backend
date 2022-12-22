@@ -21,3 +21,8 @@ export const currentUserSongs: RequestHandler = async (req, res, next) => {
     res.status(200).json(response)
   })
 }
+
+export const getAllSongs: RequestHandler = async (req, res, next) => {
+  let allSongs: Song[] = await Song.findAll()
+  res.status(200).json(allSongs)
+}

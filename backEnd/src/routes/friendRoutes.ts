@@ -6,7 +6,7 @@ const router = Router();
 router.post('/', addFriend);
 router.get('/', getAllFriends);
 router.get('/:id', getFriendsByID);
-router.get('/:searchTerm', searchFriends);
+router.get('/search/:searchTerm', searchFriends);
 router.delete('/:id', deleteFriendsByID);
 
 export default router;

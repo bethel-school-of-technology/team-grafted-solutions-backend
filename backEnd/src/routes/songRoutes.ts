@@ -1,8 +1,9 @@
 import { Router } from 'express';
-import { createSong, currentUserSongs } from '../controllers/songController';
+import { createSong, currentUserSongs, getAllSongs } from '../controllers/songController';
 
 const router = Router();
 
+router.get('/', getAllSongs);
 router.get('/:username', currentUserSongs);
 router.post('/', createSong);
 
