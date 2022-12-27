@@ -27,9 +27,9 @@ app.use(express.urlencoded({ extended: true }))
 app.post('/refresh', (req, res) => {
   const refreshToken = req.body.refreshToken
   const spotifyApi = new SpotifyWebApi({
-    redirectUri: process.env.REDIRECT_URI,
-    clientId: process.env.CLIENT_ID,
-    clientSecret: process.env.CLIENT_SECRET,
+    redirectUri: 'http://localhost:8100/socialvibez/music',
+    clientId: '69372f48d4b24c099e581c69793c1879',
+    clientSecret: '3fd83b37a78044e597517228a2cb6796',
     refreshToken,
   })
 
@@ -47,25 +47,44 @@ app.post('/refresh', (req, res) => {
 app.post('/login', (req, res) => {
   const code = req.body.code
   const spotifyApi = new SpotifyWebApi({
-    redirectUri: process.env.REDIRECT_URI,
-    clientId: process.env.CLIENT_ID,
-    clientSecret: process.env.CLIENT_SECRET,
+    redirectUri: 'http://localhost:8100/socialvibez/music',
+    clientId: '69372f48d4b24c099e581c69793c1879',
+    clientSecret: '3fd83b37a78044e597517228a2cb6796',
   })
 
   spotifyApi
     .authorizationCodeGrant(code)
     .then((data: any) => {
-      res.json({
-        accessToken: data.body.access_token,
-        refreshToken: data.body.refresh_token,
-        expiresIn: data.body.expires_in,
-      })
+      res.json(data.body.access_token)
     })
     .catch((err: any) => {
       console.log(err)
       res.sendStatus(400)
     })
 })
+
+// app.post('/login', (req, res) => {
+//   const code = req.body.code
+//   const spotifyApi = new SpotifyWebApi({
+//     redirectUri: process.env.REDIRECT_URI,
+//     clientId: process.env.CLIENT_ID,
+//     clientSecret: process.env.CLIENT_SECRET,
+//   })
+
+//   spotifyApi
+//     .authorizationCodeGrant(code)
+//     .then((data: any) => {
+//       res.json({
+//         accessToken: data.body.access_token,
+//         refreshToken: data.body.refresh_token,
+//         expiresIn: data.body.expires_in,
+//       })
+//     })
+//     .catch((err: any) => {
+//       console.log(err)
+//       res.sendStatus(400)
+//     })
+// })
 
 app.get('/lyrics', async (req, res) => {
   const lyrics =
