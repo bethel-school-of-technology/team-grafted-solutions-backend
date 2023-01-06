@@ -3,7 +3,7 @@ import { User } from "./user";
 
 export class Friend extends Model<InferAttributes<Friend>, InferCreationAttributes<Friend>>{
     declare friendId: number;
-    declare username: string;
+    declare userId: string;
     declare display_name: string;
     declare createdAt?: Date;
     declare updatedAt?: Date;
@@ -17,7 +17,7 @@ export function FriendFactory(sequelize: Sequelize) {
          primaryKey: true,
          allowNull: false,
      },
-     username: {
+     userId: {
         type: DataTypes.STRING,
         allowNull: false,
     },
@@ -43,6 +43,6 @@ export function FriendFactory(sequelize: Sequelize) {
 }
 
 export function AssociateUserFriend() {
- User.hasMany(Friend, { foreignKey: 'username' });
- Friend.belongsTo(User, { foreignKey: 'username' });
+ User.hasMany(Friend, { foreignKey: 'userId' });
+ Friend.belongsTo(User, { foreignKey: 'userId' });
 }
