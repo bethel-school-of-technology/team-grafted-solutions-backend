@@ -4,7 +4,7 @@ import moment from 'moment';
 
 export class Song extends Model<InferAttributes<Song>, InferCreationAttributes<Song>>{
     declare songId: number;
-    declare username: string;
+    declare userId: string;
     declare title: string;
     declare artist: string;
     declare albumUrl: string;
@@ -20,7 +20,7 @@ export function SongFactory(sequelize: Sequelize) {
             primaryKey: true,
             allowNull: false
         },
-        username: {
+        userId: {
             type: DataTypes.STRING,
             allowNull: false,
         },
@@ -57,7 +57,7 @@ export function SongFactory(sequelize: Sequelize) {
 }
 
 export function AssociateUserSong() {
-    User.hasMany(Song, { foreignKey: 'username' });
-    Song.belongsTo(User, { foreignKey: 'username' });
+    User.hasMany(Song, { foreignKey: 'userId' });
+    Song.belongsTo(User, { foreignKey: 'userId' });
 }
 

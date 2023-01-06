@@ -1,7 +1,7 @@
 import { DataTypes, InferAttributes, InferCreationAttributes, Model, Sequelize } from "sequelize";
 
 export class User extends Model<InferAttributes<User>, InferCreationAttributes<User>>{
-    declare username: string;
+    declare userId: string;
     declare email: string;
     declare display_name: string;
     declare createdAt?: Date;
@@ -10,7 +10,7 @@ export class User extends Model<InferAttributes<User>, InferCreationAttributes<U
 
 export function UserFactory(sequelize: Sequelize) {
  User.init({
-     username: {
+     userId: {
          type: DataTypes.STRING,
          allowNull: false,
          unique: true,

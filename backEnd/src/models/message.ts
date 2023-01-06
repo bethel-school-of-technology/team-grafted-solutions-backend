@@ -4,7 +4,7 @@ import moment from 'moment';
 
 export class Message extends Model<InferAttributes<Message>, InferCreationAttributes<Message>>{
     declare messageId: number;
-    declare username: string;
+    declare userId: string;
     declare title: string;
     declare message: string;
     declare createdAt?: moment.Moment;
@@ -19,7 +19,7 @@ export function MessageFactory(sequelize: Sequelize) {
             primaryKey: true,
             allowNull: false
         },
-        username: {
+        userId: {
             type: DataTypes.STRING,
             allowNull: false,
         },
@@ -53,6 +53,6 @@ export function MessageFactory(sequelize: Sequelize) {
 }
 
 export function AssociateUserMessage() {
-    User.hasMany(Message, { foreignKey: 'username' });
-    Message.belongsTo(User, { foreignKey: 'username' });
+    User.hasMany(Message, { foreignKey: 'userId' });
+    Message.belongsTo(User, { foreignKey: 'userId' });
 }
