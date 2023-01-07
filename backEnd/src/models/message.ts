@@ -5,7 +5,7 @@ import moment from 'moment';
 export class Message extends Model<InferAttributes<Message>, InferCreationAttributes<Message>>{
     declare messageId: number;
     declare userId: string;
-    declare title: string;
+    declare display_name: string;
     declare message: string;
     declare createdAt?: moment.Moment;
     declare updatedAt?: moment.Moment;
@@ -23,10 +23,9 @@ export function MessageFactory(sequelize: Sequelize) {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        title: {
+        display_name: {
             type: DataTypes.STRING,
             allowNull: false,
-            unique: false
         },
         message: {
             type: DataTypes.STRING,

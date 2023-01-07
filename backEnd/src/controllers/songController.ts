@@ -18,10 +18,10 @@ export const createSong: RequestHandler = async (req, res, next) => {
 }
 
 export const currentUserSongs: RequestHandler = async (req, res, next) => {
-  let username = req.params.username
+  let userId = req.params.userId
 
   let songs = await Song.findAll({
-    where: { username: username },
+    where: { userId: userId },
   }).then((response) => {
     res.status(200).json(response)
   })
