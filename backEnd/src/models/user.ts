@@ -4,6 +4,7 @@ export class User extends Model<InferAttributes<User>, InferCreationAttributes<U
     declare userId: string;
     declare email: string;
     declare display_name: string;
+    declare profilePic?: string;
     declare createdAt?: Date;
     declare updatedAt?: Date;
 }
@@ -23,6 +24,10 @@ export function UserFactory(sequelize: Sequelize) {
      display_name: {
          type: DataTypes.STRING,
          allowNull: false,
+     },
+     profilePic: {
+         type: DataTypes.STRING,
+         allowNull: true,
      },
      createdAt: {
          type: DataTypes.DATE,
