@@ -14,10 +14,6 @@ import friendRoutes from './routes/friendRoutes'
 const app = express()
 app.use(cors())
 
-// these might not be needed
-// app.use(bodyParser.json())
-// app.use(bodyParser.urlencoded({ extended: true }))
-
 app.use(morgan('dev'))
 
 app.use(express.json())
