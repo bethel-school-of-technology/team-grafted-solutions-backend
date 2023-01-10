@@ -2,11 +2,6 @@ import { RequestHandler } from 'express'
 import { Message } from '../models/message'
 import { User } from '../models/user'
 import { verifyUser } from '../services/auth'
-// const SpotifyWebApi = require('spotify-web-api-node')
-
-// const spotifyApi = new SpotifyWebApi({
-//   clientId: '69372f48d4b24c099e581c69793c1879',
-// })
 
 export const getAllMessages: RequestHandler = async (req, res, next) => {
   let messages = await Message.findAll()
@@ -30,6 +25,7 @@ export const createMessage: RequestHandler = async (req, res, next) => {
   let newMessage: Message = req.body;
   newMessage.userId = user.userId;
   newMessage.display_name = user.display_name;
+  console.log(newMessage.userId);
 
   if (newMessage.userId && newMessage.display_name && newMessage.title && newMessage.message) {
     let created = await Message.create(newMessage);
@@ -93,27 +89,6 @@ export const deleteMessage: RequestHandler = async (req, res, next) => {
     res.status(404).json('An error occured while deleting this message');
   }
 }
-
-
-
-// const verifyUser: RequestHandler = async (req, res, next) => {
-//   let token = req.body.token
-
-//   spotifyApi.setAccessToken(token)
-
-//   spotifyApi.getMe().then(
-//     async function (data: any) {
-//       let currentUserId;
-      
-//       if(data.body.id) {
-//         currentUserId = data.body.id;
-//       } else {
-//         console.log('user not found')
-//       }
-//     }
-//   )
-// }
-
 
 
 // current user gives me the data from the current user.

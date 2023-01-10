@@ -63,21 +63,23 @@ const spotifyApi = new SpotifyWebApi({
 })
 
 export const verifyUser: RequestHandler = async (req: Request) => {
-    let token = req.body.token
-    console.log(token);
+    let token = req.headers.authorization?.split(' ')[1];
+    // console.log(token); // working
   
     spotifyApi.setAccessToken(token)
   
     spotifyApi.getMe().then(
       async function (data: any) {
-        let currentUserId;
         
         if(data.body.id) {
-            currentUserId = data.body.id;
+            let currentUserId = data.body.id;
+            // console.log(currentUserId); // working
           
             try {
-                console.log(User.findByPk(currentUserId));
-                return User.findByPk(currentUserId);
+                // console.log(User.findByPk(currentUserId)); // working
+                let match: any = await User.findByPk(currentUserId);
+                console.log(match);
+                return match;
             }
             catch (err) {
                 console.log(err);
@@ -85,8 +87,8 @@ export const verifyUser: RequestHandler = async (req: Request) => {
             }
         } else {
           console.log('user not found')
+          return null;
         }
-        console.log(currentUserId)
       }
     )
 }
