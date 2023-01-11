@@ -17,8 +17,8 @@ export const getOneMessage: RequestHandler =async (req, res, next) => {
 export const createMessage: RequestHandler = async (req, res, next) => {
 
   // console.log(await verifyUser(req), 'verifyUser console');
-  let user: User | null = await verifyUser(req);
-  console.log(user, 'user log')
+  let user: User | null = await verifyUser(req, res, next);
+  // console.log(user, 'user log')
 
   if (!user) {
     return res.status(403).send('User not detected.')
@@ -28,8 +28,9 @@ export const createMessage: RequestHandler = async (req, res, next) => {
   newMessage.userId = user.userId;
   newMessage.display_name = user.display_name;
   console.log(newMessage.userId);
+  console.log(newMessage);
 
-  if (newMessage.userId && newMessage.display_name && newMessage.title && newMessage.message) {
+  if (newMessage.title && newMessage.message) {
     let created = await Message.create(newMessage);
     res.status(201).json(created);
   } else {
@@ -38,7 +39,7 @@ export const createMessage: RequestHandler = async (req, res, next) => {
 }
 
 export const editMessage: RequestHandler = async (req, res, next) => {
-  let user: User | null = await verifyUser(req)
+  let user: User | null = await verifyUser(req, res, next);
 
   if (!user) {
     return res.status(403).send('User not detected');
@@ -51,7 +52,7 @@ export const editMessage: RequestHandler = async (req, res, next) => {
   let updatedMessage: Message = req.body;
   let messageFound = await Message.findByPk(messageId);
 
-  if (messageFound && messageFound.messageId == updatedMessage.messageId && messageFound.userId == userId) {
+  if (messageFound && messageFound.messageId && messageFound.userId == userId) {
     await Message.update(updatedMessage, {
       where: { 
         messageId: messageId,
@@ -66,7 +67,7 @@ export const editMessage: RequestHandler = async (req, res, next) => {
 }
 
 export const deleteMessage: RequestHandler = async (req, res, next) => {
-  let user: User | null = await verifyUser(req)
+  let user: User | null = await verifyUser(req, res, next);
 
   if (!user) {
     return res.status(403).send('User not detected');
