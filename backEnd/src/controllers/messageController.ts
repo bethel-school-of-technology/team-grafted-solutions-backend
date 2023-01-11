@@ -16,9 +16,7 @@ export const getOneMessage: RequestHandler =async (req, res, next) => {
 
 export const createMessage: RequestHandler = async (req, res, next) => {
 
-  // console.log(await verifyUser(req), 'verifyUser console');
   let user: User | null = await verifyUser(req, res, next);
-  // console.log(user, 'user log')
 
   if (!user) {
     return res.status(403).send('User not detected.')
@@ -92,7 +90,3 @@ export const deleteMessage: RequestHandler = async (req, res, next) => {
     res.status(404).json('An error occured while deleting this message');
   }
 }
-
-
-// current user gives me the data from the current user.
-// match the currentUserId to the message's userId

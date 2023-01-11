@@ -19,9 +19,6 @@ export const verifyUser: RequestHandler = async (req: Request) => {
         if(token) {
           try {
             let currentUserId = data.body.id;
-            // console.log(currentUserId, 'id'); // working
-
-            // console.log(await User.findByPk(currentUserId), 'findbypk'); // working
             return await User.findByPk(currentUserId);
           }
           catch (err) {
