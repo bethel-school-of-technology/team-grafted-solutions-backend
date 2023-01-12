@@ -5,8 +5,8 @@ import { AssociateUserFriend, FriendFactory } from "./friend";
 import { UserFactory } from "./user";
 
 const dbName = 'socialvibez';
-const username = ''; // your username
-const password = ''; // your password
+const username = 'root'; // your username
+const password = 'Elkahatchee'; // your password
 
 const sequelize = new Sequelize(dbName, username, password, {
     host: 'localhost',
