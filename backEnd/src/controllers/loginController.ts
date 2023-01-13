@@ -1,11 +1,5 @@
 import { RequestHandler } from 'express'
 import { User } from '../models/user'
-import {
-  comparePasswords,
-  hashPassword,
-  signUserToken,
-  verifyUser,
-} from '../services/auth'
 const SpotifyWebApi = require('spotify-web-api-node')
 
 let token: string;
