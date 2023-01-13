@@ -16,67 +16,77 @@ export const getOneMessage: RequestHandler =async (req, res, next) => {
 
 export const createMessage: RequestHandler = async (req, res, next) => {
 
-  let newMessage: Message = req.body
+  let user: User | null = await verifyUser(req, res, next);
 
-  if (newMessage.userId && newMessage.message && newMessage.display_name) {
-    let created = await Message.create(newMessage)
-    res.status(201).json(created)
+  if (!user) {
+    return res.status(403).send('User not detected.')
+  }
+
+  let newMessage: Message = req.body;
+  newMessage.userId = user.userId;
+  newMessage.display_name = user.display_name;
+  console.log(newMessage.userId);
+  console.log(newMessage);
+
+  if (newMessage.title && newMessage.message) {
+    let created = await Message.create(newMessage);
+    res.status(201).json(created);
   } else {
-    res.status(400).send('Please include userId, message, and display_name')
+    res.status(400).send('Please include userId, display_name, title, and message')
   }
 }
 
 export const editMessage: RequestHandler = async (req, res, next) => {
-  let user: User | null = await verifyUser(req)
+  let user: User | null = await verifyUser(req, res, next);
 
   if (!user) {
-    return res.status(403).send();
+    return res.status(403).send('User not detected');
   }
 
   let messageId = req.params.messageId;
-  let username = user.username;
+  let userId = user.userId;
   console.log(req.body);
 
   let updatedMessage: Message = req.body;
   let messageFound = await Message.findByPk(messageId);
 
-  if (messageFound && messageFound.messageId == updatedMessage.messageId && messageFound.username == username) {
+  if (messageFound && messageFound.messageId && messageFound.userId == userId) {
     await Message.update(updatedMessage, {
       where: { 
         messageId: messageId,
-        username: username
+        userId: userId
       }
     });
-    res.status(200).json();
+    res.status(200).json('Updated message is a success!');
   }
   else {
-    res.status(400).json();
+    res.status(400).json('An error occured while updating this message');
   }
 }
 
 export const deleteMessage: RequestHandler = async (req, res, next) => {
-  let user: User | null = await verifyUser(req)
+  let user: User | null = await verifyUser(req, res, next);
 
   if (!user) {
-    return res.status(403).send();
+    return res.status(403).send('User not detected');
   }
 
   let messageId = req.params.messageId;
-  let username = user.username;
+  let userId = user.userId;
   console.log(req.body);
 
   let messageFound = await Message.findByPk(messageId);
 
-  if (messageFound && messageFound.username == username) {
+  if (messageFound && messageFound.userId == userId) {
     await Message.destroy({
       where: {
         messageId: messageId,
-        username: username
+        userId: userId
       }
     });
-    res.status(200).json();
+    res.status(200).json('Message deleted!');
   }
   else {
-    res.status(404).json();
+    res.status(404).json('An error occured while deleting this message');
   }
 }
