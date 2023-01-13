@@ -1,11 +1,5 @@
 import { RequestHandler } from 'express'
 import { User } from '../models/user'
-import {
-  comparePasswords,
-  hashPassword,
-  signUserToken,
-  verifyUser,
-} from '../services/auth'
 const SpotifyWebApi = require('spotify-web-api-node')
 
 const spotifyApi = new SpotifyWebApi({
@@ -13,7 +7,7 @@ const spotifyApi = new SpotifyWebApi({
 })
 
 export const currentUser: RequestHandler = async (req, res, next) => {
-  let token = req.body.token
+  let token = req.headers.authorization?.split(' ')[1];
 
   spotifyApi.setAccessToken(token)
 
@@ -37,7 +31,8 @@ export const currentUser: RequestHandler = async (req, res, next) => {
 
       if (newUser.userId && newUser.email && newUser.display_name) {
         try {
-          let created = await User.create(newUser)
+          let created = await User.create(newUser);
+          return created;
         } catch (error) {
           console.log(error)
         }

@@ -6,6 +6,7 @@ export class Message extends Model<InferAttributes<Message>, InferCreationAttrib
     declare messageId: number;
     declare userId: string;
     declare display_name: string;
+    declare title: string;
     declare message: string;
     declare createdAt?: moment.Moment;
     declare updatedAt?: moment.Moment;
@@ -26,6 +27,10 @@ export function MessageFactory(sequelize: Sequelize) {
         display_name: {
             type: DataTypes.STRING,
             allowNull: false,
+        },
+        title: {
+            type: DataTypes.STRING,
+            allowNull: false
         },
         message: {
             type: DataTypes.STRING,
