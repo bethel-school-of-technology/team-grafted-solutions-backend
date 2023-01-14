@@ -7,6 +7,7 @@ import express, { NextFunction, Request, Response } from 'express'
 import morgan from 'morgan'
 import { db } from './models'
 import messageRoutes from './routes/messageRoutes'
+import loginRoutes from './routes/loginRoutes'
 import songRoutes from './routes/songRoutes'
 import userRoutes from './routes/userRoutes'
 import friendRoutes from './routes/friendRoutes'
@@ -33,25 +34,6 @@ app.post('/refresh', (req, res) => {
     .refreshAccessToken()
     .then((data: any) => {
       console.log(data.body)
-    })
-    .catch((err: any) => {
-      console.log(err)
-      res.sendStatus(400)
-    })
-})
-
-app.post('/login', (req, res) => {
-  const code = req.body.code
-  const spotifyApi = new SpotifyWebApi({
-    redirectUri: 'http://localhost:8100/socialvibez/music',
-    clientId: '69372f48d4b24c099e581c69793c1879',
-    clientSecret: '3fd83b37a78044e597517228a2cb6796',
-  })
-
-  spotifyApi
-    .authorizationCodeGrant(code)
-    .then((data: any) => {
-      res.json(data.body.access_token)
     })
     .catch((err: any) => {
       console.log(err)
@@ -88,6 +70,7 @@ app.get('/lyrics', async (req, res) => {
   res.json({ lyrics })
 })
 
+app.use('/login', loginRoutes)
 app.use('/messages', messageRoutes)
 app.use('/users', userRoutes)
 app.use('/songs', songRoutes)
