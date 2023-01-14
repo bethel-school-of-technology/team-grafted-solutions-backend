@@ -55,7 +55,8 @@ export const createUser: RequestHandler = async (req, res, next) => {
 
      if (newUser.userId && newUser.email && newUser.display_name) {
        try {
-         let created = await User.create(newUser)
+         let created = await User.create(newUser);
+         return created
        } catch (error) {
          console.log(error)
        }
