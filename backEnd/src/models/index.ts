@@ -3,6 +3,7 @@ import { AssociateUserMessage, MessageFactory } from "./message";
 import { AssociateUserSong, SongFactory } from "./song";
 import { AssociateUserFriend, FriendFactory } from "./friend";
 import { UserFactory } from "./user";
+import { AssociateFriendDM, DirectMessageFactory } from "./directMessages";
 
 const dbName = 'socialvibez';
 const username = ''; // your username
@@ -18,8 +19,10 @@ MessageFactory(sequelize);
 UserFactory(sequelize);
 SongFactory(sequelize);
 FriendFactory(sequelize);
+DirectMessageFactory(sequelize);
 AssociateUserMessage();
 AssociateUserSong();
 AssociateUserFriend();
+AssociateFriendDM();
 
 export const db = sequelize;
