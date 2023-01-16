@@ -6,7 +6,7 @@ const SpotifyWebApi = require('spotify-web-api-node')
 import express, { NextFunction, Request, Response } from 'express'
 import morgan from 'morgan'
 import { db } from './models'
-import messageRoutes from './routes/messageRoutes'
+import postRoutes from './routes/postRoutes'
 import songRoutes from './routes/songRoutes'
 import userRoutes from './routes/userRoutes'
 import friendRoutes from './routes/friendRoutes'
@@ -88,7 +88,7 @@ app.get('/lyrics', async (req, res) => {
   res.json({ lyrics })
 })
 
-app.use('/messages', messageRoutes)
+app.use('/posts', postRoutes)
 app.use('/users', userRoutes)
 app.use('/songs', songRoutes)
 app.use('/friends', friendRoutes)
