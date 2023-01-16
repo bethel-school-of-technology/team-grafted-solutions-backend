@@ -2,8 +2,8 @@ import { DataTypes, InferAttributes, InferCreationAttributes, Model, Sequelize }
 import { User } from "./user";
 import moment from 'moment';
 
-export class Message extends Model<InferAttributes<Message>, InferCreationAttributes<Message>>{
-    declare messageId: number;
+export class Post extends Model<InferAttributes<Post>, InferCreationAttributes<Post>>{
+    declare postId: number;
     declare userId: string;
     declare display_name: string;
     declare title: string;
@@ -12,9 +12,9 @@ export class Message extends Model<InferAttributes<Message>, InferCreationAttrib
     declare updatedAt?: moment.Moment;
 }
 
-export function MessageFactory(sequelize: Sequelize) {
-    Message.init({
-        messageId: {
+export function PostFactory(sequelize: Sequelize) {
+    Post.init({
+        postId: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true,
@@ -39,24 +39,21 @@ export function MessageFactory(sequelize: Sequelize) {
         createdAt: {
             type: DataTypes.STRING,
             allowNull: false,
-            defaultValue: moment().format('M/D/YYYY, h:mm:ss a'),
-            // defaultValue: DataTypes.NOW,
-            
+            defaultValue: moment().format('M/D/YYYY, h:mm:ss a')
         },
         updatedAt: {
             type: DataTypes.STRING,
             allowNull: false,
-            defaultValue: moment().format('M/D/YYYY, h:mm:ss a'),
-            // defaultValue: DataTypes.NOW,
+            defaultValue: moment().format('M/D/YYYY, h:mm:ss a')
         }
     }, {
         freezeTableName: true,
-        tableName: 'messages',
+        tableName: 'post',
         sequelize
     });
 }
 
 export function AssociateUserMessage() {
-    User.hasMany(Message, { foreignKey: 'userId' });
-    Message.belongsTo(User, { foreignKey: 'userId' });
+    User.hasMany(Post, { foreignKey: 'userId' });
+    Post.belongsTo(User, { foreignKey: 'userId' });
 }
