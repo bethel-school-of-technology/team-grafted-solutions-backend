@@ -53,7 +53,7 @@ export function PostFactory(sequelize: Sequelize) {
     });
 }
 
-export function AssociateUserMessage() {
+export function AssociateUserPost() {
     User.hasMany(Post, { foreignKey: 'userId' });
     Post.belongsTo(User, { foreignKey: 'userId' });
 }

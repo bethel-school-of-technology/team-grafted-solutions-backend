@@ -2,19 +2,19 @@ import { DataTypes, InferAttributes, InferCreationAttributes, Model, Sequelize }
 import moment from 'moment';
 import { Friend } from "./friend";
 
-export class DirectMessage extends Model<InferAttributes<DirectMessage>, InferCreationAttributes<DirectMessage>>{
-    declare directMessageId: number;
+export class Message extends Model<InferAttributes<Message>, InferCreationAttributes<Message>>{
+    declare messageId: number;
     declare userId: string;
     declare friendId: string;
     declare display_name: string;
-    declare directMessage: string;
+    declare message: string;
     declare createdAt?: moment.Moment;
     // declare updatedAt?: moment.Moment;
 }
 
-export function DirectMessageFactory(sequelize: Sequelize) {
-    DirectMessage.init({
-        directMessageId: {
+export function MessageFactory(sequelize: Sequelize) {
+    Message.init({
+        messageId: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true,
@@ -32,7 +32,7 @@ export function DirectMessageFactory(sequelize: Sequelize) {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        directMessage: {
+        message: {
             type: DataTypes.STRING,
             allowNull: false
         },
@@ -48,14 +48,14 @@ export function DirectMessageFactory(sequelize: Sequelize) {
         // }
     }, {
         freezeTableName: true,
-        tableName: 'directMessages',
+        tableName: 'messages',
         sequelize
     });
 }
 
-export function AssociateFriendDM() {
-    Friend.hasMany(DirectMessage, { foreignKey: 'userId' });
-    Friend.hasMany(DirectMessage, { foreignKey: 'friendId' });
-    DirectMessage.belongsTo(Friend, { foreignKey: 'userId' });
-    DirectMessage.belongsTo(Friend, { foreignKey: 'friendId' });
+export function AssociateFriendMessages() {
+    Friend.hasMany(Message, { foreignKey: 'userId' });
+    Friend.hasMany(Message, { foreignKey: 'friendId' });
+    Message.belongsTo(Friend, { foreignKey: 'userId' });
+    Message.belongsTo(Friend, { foreignKey: 'friendId' });
 }
