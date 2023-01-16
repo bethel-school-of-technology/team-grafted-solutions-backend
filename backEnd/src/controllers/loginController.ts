@@ -2,7 +2,7 @@ import { RequestHandler } from 'express'
 import { User } from '../models/user'
 const SpotifyWebApi = require('spotify-web-api-node')
 
-let token: string;
+export let token: string = '';
 
 const spotifyApi = new SpotifyWebApi({
   clientId: '69372f48d4b24c099e581c69793c1879',
@@ -21,7 +21,6 @@ export const loginUser: RequestHandler = async (req, res, next) => {
    .authorizationCodeGrant(code)
    .then((data: any) => {
      token = data.body.access_token;
-     res.json(data.body.access_token)
    })
    .catch((err: any) => {
      console.log(err)
@@ -54,12 +53,18 @@ export const createUser: RequestHandler = async (req, res, next) => {
      }
 
      if (newUser.userId && newUser.email && newUser.display_name) {
-       try {
-         let created = await User.create(newUser);
-         return created
-       } catch (error) {
-         console.log(error)
-       }
+
+      const existingUser = await User.findByPk(newUser.userId);
+      if (!existingUser) {
+        try {
+          let created = await User.create(newUser);
+          return created
+        } catch (error) {
+          console.log(error)
+        }
+      } else {
+        console.log('');
+      }
      } else {
        console.log(`userId, email, and display_name required`)
      }
@@ -69,6 +74,9 @@ export const createUser: RequestHandler = async (req, res, next) => {
      console.log('Something went wrong!', err)
    }
  )
+
+ next();
+
 }
 
 
