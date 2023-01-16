@@ -1,6 +1,5 @@
 require('dotenv').config()
 const cors = require('cors')
-const bodyParser = require('body-parser')
 const lyricsFinder = require('lyrics-finder')
 const SpotifyWebApi = require('spotify-web-api-node')
 import express, { NextFunction, Request, Response } from 'express'
