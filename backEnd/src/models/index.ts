@@ -1,5 +1,5 @@
 import { Sequelize } from "sequelize";
-import { AssociateUserMessage, MessageFactory } from "./message";
+import { AssociateUserMessage, PostFactory } from "./post";
 import { AssociateUserSong, SongFactory } from "./song";
 import { AssociateUserFriend, FriendFactory } from "./friend";
 import { UserFactory } from "./user";
@@ -14,7 +14,7 @@ const sequelize = new Sequelize(dbName, username, password, {
     dialect: 'mysql'
 });
 
-MessageFactory(sequelize);
+PostFactory(sequelize);
 UserFactory(sequelize);
 SongFactory(sequelize);
 FriendFactory(sequelize);
