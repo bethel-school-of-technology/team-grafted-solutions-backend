@@ -9,7 +9,7 @@ export class DirectMessage extends Model<InferAttributes<DirectMessage>, InferCr
     declare display_name: string;
     declare directMessage: string;
     declare createdAt?: moment.Moment;
-    declare updatedAt?: moment.Moment;
+    // declare updatedAt?: moment.Moment;
 }
 
 export function DirectMessageFactory(sequelize: Sequelize) {
@@ -39,16 +39,13 @@ export function DirectMessageFactory(sequelize: Sequelize) {
         createdAt: {
             type: DataTypes.STRING,
             allowNull: false,
-            defaultValue: moment().format('M/D/YYYY, h:mm:ss a'),
-            // defaultValue: DataTypes.NOW,
-            
-        },
-        updatedAt: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            defaultValue: moment().format('M/D/YYYY, h:mm:ss a'),
-            // defaultValue: DataTypes.NOW,
+            defaultValue: moment().format('M/D/YYYY, h:mm:ss a')
         }
+        // updatedAt: {
+        //     type: DataTypes.STRING,
+        //     allowNull: false,
+        //     defaultValue: moment().format('M/D/YYYY, h:mm:ss a')
+        // }
     }, {
         freezeTableName: true,
         tableName: 'directMessages',
