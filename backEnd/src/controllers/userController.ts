@@ -33,3 +33,25 @@ export const getUserById: RequestHandler =async (req, res, next) => {
   let user = await User.findByPk(userId);
   res.status(200).json(user);
 }
+
+export const searchUsers: RequestHandler = async (req, res) => {
+  try {
+    let search = req.params.searchTerm;
+    const users = await User.findAll({
+      where: { display_name: search }
+    });
+    
+    if (users.length > 0) {
+      
+      res.status(200).json(users);
+  
+      }
+      else {
+          res.status(200).send('No users found');
+      }
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error searching for users');
+  }
+};
