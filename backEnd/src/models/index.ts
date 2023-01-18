@@ -3,7 +3,7 @@ import { AssociateUserPost, PostFactory } from "./post";
 import { AssociateUserSong, SongFactory } from "./song";
 import { AssociateUserFriend, FriendFactory } from "./friend";
 import { UserFactory } from "./user";
-import { AssociateFriendMessages, MessageFactory } from "./messages";
+import { AssociateFriendMessages, MessageFactory } from "./message";
 
 const dbName = 'socialvibez';
 const username = ''; // your username
