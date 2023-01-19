@@ -13,7 +13,6 @@ export function FriendFactory(sequelize: Sequelize) {
  Friend.init({
      friendId: {
          type: DataTypes.INTEGER,
-         autoIncrement: true,
          primaryKey: true,
          allowNull: false,
      },
