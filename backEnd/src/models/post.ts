@@ -4,6 +4,7 @@ import moment from 'moment';
 
 export class Post extends Model<InferAttributes<Post>, InferCreationAttributes<Post>>{
     declare postId: number;
+    declare pageId: number;
     declare userId: string;
     declare display_name: string;
     declare title: string;
@@ -18,6 +19,10 @@ export function PostFactory(sequelize: Sequelize) {
             type: DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true,
+            allowNull: false
+        },
+        pageId: {
+            type: DataTypes.INTEGER,
             allowNull: false
         },
         userId: {
@@ -56,4 +61,5 @@ export function PostFactory(sequelize: Sequelize) {
 export function AssociateUserMessage() {
     User.hasMany(Post, { foreignKey: 'userId' });
     Post.belongsTo(User, { foreignKey: 'userId' });
+    
 }
