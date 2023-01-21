@@ -4,14 +4,14 @@ import { AssociateUserSong, SongFactory } from "./song";
 import { AssociateUserFriend, FriendFactory } from "./friend";
 import { UserFactory } from "./user";
 
-const dbName = 'socialvibez';
-const username = ''; // your username
-const password = ''; // your password
+const dbName = "socialvibez";
+const username = "root"; // your username
+const password = "Password1!"; // your password
 
 const sequelize = new Sequelize(dbName, username, password, {
-    host: 'localhost',
-    port: 3306,
-    dialect: 'mysql'
+  host: "localhost",
+  port: 3306,
+  dialect: "mysql",
 });
 
 MessageFactory(sequelize);
