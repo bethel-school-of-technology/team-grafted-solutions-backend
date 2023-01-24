@@ -25,6 +25,7 @@ export const currentUserSongs: RequestHandler = async (req, res, next) => {
   }).then((response) => {
     res.status(200).json(response)
   })
+  return songs;
 }
 
 export const getAllSongs: RequestHandler = async (req, res, next) => {
@@ -39,9 +40,10 @@ export const songSearch: RequestHandler = async (req, res, next) => {
   spotifyApi.setAccessToken(token)
 
   let result = spotifyApi.searchTracks(`artist:${search}`, {limit:10}).then((response: any) => {
-
     res.status(200).json(response.body.tracks.items)
   })
+
+  return result;
 }
 
 // export const songSearch: RequestHandler = async (req, res, next) => {

@@ -3,7 +3,8 @@ import moment from 'moment';
 
 export class MusicPage extends Model<InferAttributes<MusicPage>, InferCreationAttributes<MusicPage>>{
     declare pageId: number;
-    declare artistId: number;
+    declare artistId?: string;
+    declare trackId?: string;
     declare createdAt?: moment.Moment;
     declare updatedAt?: moment.Moment;
 }
@@ -17,7 +18,11 @@ export function MusicPageFactory(sequelize: Sequelize) {
             allowNull: false
         },
         artistId: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        trackId: {
+            type: DataTypes.STRING,
             allowNull: false
         },
         createdAt: {
@@ -37,7 +42,3 @@ export function MusicPageFactory(sequelize: Sequelize) {
     });
 }
 
-export function AssociateMusicPagePosts() {
-    // User.hasMany(Post, { foreignKey: 'userId' });
-    // Post.belongsTo(User, { foreignKey: 'userId' });
-}

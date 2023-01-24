@@ -1,6 +1,7 @@
 import { DataTypes, InferAttributes, InferCreationAttributes, Model, Sequelize } from "sequelize";
 import { User } from "./user";
 import moment from 'moment';
+import { MusicPage } from "./musicPage";
 
 export class Post extends Model<InferAttributes<Post>, InferCreationAttributes<Post>>{
     declare postId: number;
@@ -61,5 +62,9 @@ export function PostFactory(sequelize: Sequelize) {
 export function AssociateUserMessage() {
     User.hasMany(Post, { foreignKey: 'userId' });
     Post.belongsTo(User, { foreignKey: 'userId' });
-    
+}
+
+export function AssociateMusicPagePosts() {
+    MusicPage.hasMany(Post, { foreignKey: 'pageId' });
+    Post.belongsTo(MusicPage, { foreignKey: 'pageId' });
 }

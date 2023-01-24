@@ -2,6 +2,7 @@ import { RequestHandler } from 'express'
 import { Post } from '../models/post'
 import { User } from '../models/user'
 import { verifyUser } from '../services/auth'
+import { createMusicPage } from './musicPageController'
 
 export const getAllPosts: RequestHandler = async (req, res, next) => {
   let posts = await Post.findAll()
@@ -20,6 +21,10 @@ export const createPost: RequestHandler = async (req, res, next) => {
 
   if (!user) {
     return res.status(403).send('User not detected.')
+  }
+
+  if (!pageId) {
+    let firstPost: MusicPage = await createMusicPage(id)
   }
 
   let newPost: Post = req.body;
