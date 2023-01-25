@@ -37,8 +37,10 @@ export const createMusicPage: RequestHandler = async (req, res, next) => {
     //         return newPage.artistId = artistId;
     //     }
     // )
-    // if artistId = data.body.id // newPage.artistId = artistId
-    // if trackId = data.body.id // newPage.trackId = trackId
+    let artistId = req.params.id; // needs to be specified as artist id
+    newPage.artistId = artistId;
+    let trackId = req.params.id; // needs to be specified as track id
+    newPage.trackId = trackId;
 
     // if musicPage with artistId or trackId does not exist, then continue this function
     if (newPage.artistId || newPage.trackId) {
@@ -53,7 +55,7 @@ export const createMusicPage: RequestHandler = async (req, res, next) => {
             }
         }
     } else {
-        res.status(400).send('page not created')
+        res.status(400).send('cannot find artistId nor trackId')
     }
 }
 

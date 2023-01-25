@@ -9,10 +9,16 @@ export const getAllPosts: RequestHandler = async (req, res, next) => {
   res.status(200).json(posts)
 }
 
-export const getOnePost: RequestHandler =async (req, res, next) => {
+export const getOnePost: RequestHandler = async (req, res, next) => {
   let postId = req.params.postId;
   let post = await Post.findByPk(postId);
   res.status(200).json(post);
+}
+
+export const getPostsByUser: RequestHandler = async (req, res, next) => {
+  let userId = req.params.userId;
+  let userPosts = await Post.findAll({ where: { userId: userId } });
+  res.status(200).json(userPosts);
 }
 
 export const createPost: RequestHandler = async (req, res, next) => {
