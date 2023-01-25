@@ -1,11 +1,10 @@
 import { DataTypes, InferAttributes, InferCreationAttributes, Model, Sequelize } from "sequelize";
 import moment from 'moment';
-import { Friend } from "./friend";
+import { User } from "./user";
 
 export class Message extends Model<InferAttributes<Message>, InferCreationAttributes<Message>>{
     declare messageId: number;
     declare userId: string;
-    declare friendId: string;
     declare display_name: string;
     declare message: string;
     declare createdAt?: moment.Moment;
@@ -21,10 +20,6 @@ export function MessageFactory(sequelize: Sequelize) {
             allowNull: false
         },
         userId: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-        friendId: {
             type: DataTypes.STRING,
             allowNull: false,
         },
@@ -53,9 +48,7 @@ export function MessageFactory(sequelize: Sequelize) {
     });
 }
 
-export function AssociateFriendMessages() {
-    Friend.hasMany(Message, { foreignKey: 'userId' });
-    Friend.hasMany(Message, { foreignKey: 'friendId' });
-    Message.belongsTo(Friend, { foreignKey: 'userId' });
-    Message.belongsTo(Friend, { foreignKey: 'friendId' });
+export function AssociateUserMessages() {
+    User.hasMany(Message, { foreignKey: 'userId' });
+    Message.belongsTo(User, { foreignKey: 'userId' });
 }
