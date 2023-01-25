@@ -19,11 +19,11 @@ export function MusicPageFactory(sequelize: Sequelize) {
         },
         artistId: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: true
         },
         trackId: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: true
         },
         createdAt: {
             type: DataTypes.STRING,

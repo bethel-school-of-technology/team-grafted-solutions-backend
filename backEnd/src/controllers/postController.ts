@@ -23,10 +23,6 @@ export const createPost: RequestHandler = async (req, res, next) => {
     return res.status(403).send('User not detected.')
   }
 
-  if (!pageId) {
-    let firstPost: MusicPage = await createMusicPage(id)
-  }
-
   let newPost: Post = req.body;
   newPost.userId = user.userId;
   newPost.display_name = user.display_name;
