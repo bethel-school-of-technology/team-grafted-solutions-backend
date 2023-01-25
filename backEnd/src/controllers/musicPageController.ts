@@ -22,45 +22,39 @@ export const getMusicPage: RequestHandler = async (req, res, next) => {
 export const createMusicPage: RequestHandler = async (req, res, next) => {
     let newPage: MusicPage = req.body;
     
-    spotifyApi.getTrack().then(
-        async function (data: any) {
-            console.log(data.body);
-            let trackId = data.body.id;
-            return newPage.trackId = trackId;
-        }
-    )
+    // spotifyApi.getTrack().then(
+    //     async function (data: any) {
+    //         console.log(data.body);
+    //         let trackId = data.body.id;
+    //         return newPage.trackId = trackId;
+    //     }
+    // )
 
-    spotifyApi.getArtist().then(
-        async function (data: any) {
-            console.log(data.body);
-            let artistId = data.body.id;
-            return newPage.artistId = artistId;
-        }
-    )
+    // spotifyApi.getArtist().then(
+    //     async function (data: any) {
+    //         console.log(data.body);
+    //         let artistId = data.body.id;
+    //         return newPage.artistId = artistId;
+    //     }
+    // )
+    // if artistId = data.body.id // newPage.artistId = artistId
+    // if trackId = data.body.id // newPage.trackId = trackId
 
     // if musicPage with artistId or trackId does not exist, then continue this function
     if (newPage.artistId || newPage.trackId) {
-        let created = await MusicPage.create(newPage)
-        res.status(201).json(created)
+        const existingArtistPage = await MusicPage.findOne({ where: { artistId: newPage.artistId } });
+        const existingTrackPage = await MusicPage.findOne({ where: { trackId: newPage.trackId } });
+        if(!existingArtistPage || !existingTrackPage) {
+            try {
+                let created = await MusicPage.create(newPage)
+                res.status(201).json(created)
+            } catch (error) {
+                console.log(error);
+            }
+        }
     } else {
-        res.status(400).send()
+        res.status(400).send('page not created')
     }
 }
 
 // search for page with artist or track id and if neither exists, then it is created
-
-// if (newUser.userId && newUser.email && newUser.display_name) {
-//     const existingUser = await User.findByPk(newUser.userId)
-//     if (!existingUser) {
-//       try {
-//         let created = await User.create(newUser)
-//         return created
-//       } catch (error) {
-//         console.log(error)
-//       }
-//     } else {
-//       console.log('')
-//     }
-//   } else {
-//     console.log(`userId, email, and display_name required`)
-//   }
