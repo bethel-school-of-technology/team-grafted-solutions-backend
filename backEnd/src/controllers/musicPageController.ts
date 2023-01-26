@@ -1,10 +1,3 @@
-// checkout how the login worked with automatically storing a user
-// do the same/similar thing with storing the music page info when a comment is placed on that page
-
-// edit the postController to account for the pageId
-// this needs to take in the pageId when the post is created
-// this needs to take in the pageId when the post is edited and deleted
-
 import { RequestHandler } from "express";
 import { MusicPage } from "../models/musicPage";
 const SpotifyWebApi = require('spotify-web-api-node')
@@ -42,7 +35,6 @@ export const createMusicPage: RequestHandler = async (req, res, next) => {
     let trackId = req.params.id; // needs to be specified as track id
     newPage.trackId = trackId;
 
-    // if musicPage with artistId or trackId does not exist, then continue this function
     if (newPage.artistId || newPage.trackId) {
         const existingArtistPage = await MusicPage.findOne({ where: { artistId: newPage.artistId } });
         const existingTrackPage = await MusicPage.findOne({ where: { trackId: newPage.trackId } });
@@ -58,5 +50,3 @@ export const createMusicPage: RequestHandler = async (req, res, next) => {
         res.status(400).send('cannot find artistId nor trackId')
     }
 }
-
-// search for page with artist or track id and if neither exists, then it is created

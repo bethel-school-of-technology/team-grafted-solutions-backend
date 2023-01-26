@@ -1,4 +1,5 @@
 import { RequestHandler } from 'express'
+import { MusicPage } from '../models/musicPage'
 import { Post } from '../models/post'
 import { User } from '../models/user'
 import { verifyUser } from '../services/auth'
@@ -21,13 +22,20 @@ export const getPostsByUser: RequestHandler = async (req, res, next) => {
   res.status(200).json(userPosts);
 }
 
-export const createPost: RequestHandler = async (req, res, next) => {
+export const getPostsByPage: RequestHandler = async (req, res, next) => {
+  let pageId = req.params.pageId;
+  let pagePosts = await Post.findAll({ where: { pageId: pageId } });
+  res.status(200).json(pagePosts);
+}
 
+export const createPost: RequestHandler = async (req, res, next) => {
   let user: User | null = await verifyUser(req, res, next);
 
   if (!user) {
     return res.status(403).send('User not detected.')
   }
+
+  // let page: MusicPage | null = await createMusicPage(req, res, next);
 
   let newPost: Post = req.body;
   newPost.userId = user.userId;
@@ -51,17 +59,17 @@ export const editPost: RequestHandler = async (req, res, next) => {
   }
 
   let postId = req.params.postId;
-  let userId = user.userId;
+  let currentUserId = user.userId;
   console.log(req.body);
 
   let updatedPost: Post = req.body;
   let postFound = await Post.findByPk(postId);
 
-  if (postFound && postFound.postId && postFound.userId == userId) {
+  if (postFound && postFound.postId && postFound.userId === currentUserId) {
     await Post.update(updatedPost, {
       where: { 
         postId: postId,
-        userId: userId
+        userId: currentUserId
       }
     });
     res.status(200).json('Updated post is a success!');
@@ -79,16 +87,16 @@ export const deletePost: RequestHandler = async (req, res, next) => {
   }
 
   let postId = req.params.postId;
-  let userId = user.userId;
+  let currentUserId = user.userId;
   console.log(req.body);
 
   let postFound = await Post.findByPk(postId);
 
-  if (postFound && postFound.userId == userId) {
+  if (postFound && postFound.userId === currentUserId) {
     await Post.destroy({
       where: {
         postId: postId,
-        userId: userId
+        userId: currentUserId
       }
     });
     res.status(200).json('Post deleted!');
