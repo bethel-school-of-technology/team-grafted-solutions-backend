@@ -6,6 +6,7 @@ import express, { NextFunction, Request, Response } from 'express'
 import morgan from 'morgan'
 import { db } from './models'
 import postRoutes from './routes/postRoutes'
+import messageRoutes from './routes/messageRoutes'
 import loginRoutes from './routes/loginRoutes'
 import songRoutes from './routes/songRoutes'
 import userRoutes from './routes/userRoutes'
@@ -47,6 +48,7 @@ app.get('/lyrics', async (req, res) => {
 })
 
 app.use('/posts', postRoutes)
+app.use('/messages', messageRoutes)
 app.use('/login', loginRoutes)
 app.use('/users', userRoutes)
 app.use('/songs', songRoutes)
