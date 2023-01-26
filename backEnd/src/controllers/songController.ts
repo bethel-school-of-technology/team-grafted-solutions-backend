@@ -44,19 +44,3 @@ export const songSearch: RequestHandler = async (req, res, next) => {
 
   return result;
 }
-
-// export const songSearch: RequestHandler = async (req, res, next) => {
-//   let search = req.params.searchTerm;
-//   let token = req.body.token;
-
-//   spotifyApi.setAccessToken(token)
-
-//   console.log(`search`)
-//   console.log(`test`)
-
-//   let result = spotifyApi.searchTracks(search).then((response: any) => {
-
-//     res.status(200).json(response.body.tracks.items)
-//   })
-// }
-
