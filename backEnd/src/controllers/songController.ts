@@ -36,12 +36,13 @@ export const songSearch: RequestHandler = async (req, res, next) => {
   let search = req.params.searchTerm;
   let token = req.body.token;
 
-  spotifyApi.setAccessToken(token)
+  spotifyApi.setAccessToken(token);
 
-  let result = spotifyApi.searchTracks(`artist:${search}`, {limit:10}).then((response: any) => {
-
+  let result = spotifyApi.searchTracks(`artist:${search}`, {limit:20}).then((response: any) => {
     res.status(200).json(response.body.tracks.items)
-  })
+  });
+
+  return result;
 }
 
 // export const songSearch: RequestHandler = async (req, res, next) => {
