@@ -8,7 +8,6 @@ export class Message extends Model<InferAttributes<Message>, InferCreationAttrib
     declare display_name: string;
     declare message: string;
     declare createdAt?: moment.Moment;
-    // declare updatedAt?: moment.Moment;
 }
 
 export function MessageFactory(sequelize: Sequelize) {
@@ -36,11 +35,6 @@ export function MessageFactory(sequelize: Sequelize) {
             allowNull: false,
             defaultValue: moment().format('M/D/YYYY, h:mm:ss a')
         }
-        // updatedAt: {
-        //     type: DataTypes.STRING,
-        //     allowNull: false,
-        //     defaultValue: moment().format('M/D/YYYY, h:mm:ss a')
-        // }
     }, {
         freezeTableName: true,
         tableName: 'messages',

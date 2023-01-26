@@ -43,16 +43,16 @@ export const deleteMessage: RequestHandler = async (req, res, next) => {
   }
 
   let messageId = req.params.messageId;
-  let userId = user.userId;
+  let currentUserId = user.userId;
   console.log(req.body);
 
   let messageFound = await Message.findByPk(messageId);
 
-  if (messageFound && messageFound.userId == userId) {
+  if (messageFound && messageFound.userId == currentUserId) {
     await Message.destroy({
       where: {
         messageId: messageId,
-        userId: userId
+        userId: currentUserId
       }
     });
     res.status(200).json('Message deleted!');
