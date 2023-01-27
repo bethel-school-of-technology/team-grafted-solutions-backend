@@ -1,3 +1,4 @@
+import { getRounds } from 'bcrypt'
 import { RequestHandler } from 'express'
 import { MusicPage } from '../models/musicPage'
 import { Post } from '../models/post'
@@ -35,10 +36,26 @@ export const createPost: RequestHandler = async (req, res, next) => {
     return res.status(403).send('User not detected.')
   }
 
+  const trackId = req.body.trackId;
+  const artistId = req.body.artistId;
+
+  if (!trackId && !artistId) {
+    res.status(400).send('cannot find artistId and trackId')
+  }
+  // check if the page exist
+  const musicPage = await getOrCreateMusicPage(trackId, artistId, req.body)
+
+  if (!musicPage) {
+    return res.status(400).send('music page not created');
+  }
+
+
+
   // let page: MusicPage | null = await createMusicPage(req, res, next);
 
   let newPost: Post = req.body;
   newPost.userId = user.userId;
+  newPost.pageId = musicPage.pageId;
   newPost.display_name = user.display_name;
   console.log(newPost.userId);
   console.log(newPost);
@@ -49,6 +66,35 @@ export const createPost: RequestHandler = async (req, res, next) => {
   } else {
     res.status(400).send('Please include userId, display_name, title, and message')
   }
+}
+
+const getOrCreateMusicPage = async (artistId: string, trackId: string, body?: any) => {
+
+  if (artistId || trackId) {
+      const existingArtistPage = await MusicPage.findOne({ where: { artistId: artistId } });
+      if (existingArtistPage) {
+        return existingArtistPage;
+      }
+
+      const existingTrackPage = await MusicPage.findOne({ where: { trackId: trackId } });
+      if (existingTrackPage) {
+        return existingTrackPage;
+      }
+   
+          try {
+            let newPage: MusicPage = body;
+            newPage.artistId = artistId;
+            newPage.trackId = trackId;
+              let created = await MusicPage.create(newPage)
+              return created;
+          } catch (error) {
+              console.log(error);
+          }
+      }
+  else {
+      return null;
+  }
+
 }
 
 export const editPost: RequestHandler = async (req, res, next) => {

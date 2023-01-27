@@ -7,7 +7,7 @@ const router = Router();
 router.get('/', getAllPosts);
 router.get('/:postId', getOnePost);
 router.get('/:userId', getPostsByUser)
-router.post('/', createMusicPage, createPost);
+router.post('/', createPost);
 router.put('/:postId', editPost);
 router.delete('/:postId', deletePost);
 

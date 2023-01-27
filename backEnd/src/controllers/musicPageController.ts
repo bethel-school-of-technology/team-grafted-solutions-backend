@@ -13,7 +13,7 @@ export const getMusicPage: RequestHandler = async (req, res, next) => {
 }
 
 export const createMusicPage: RequestHandler = async (req, res, next) => {
-    let newPage: MusicPage = req.body;
+    
     
     // spotifyApi.getTrack().then(
     //     async function (data: any) {
@@ -45,6 +45,8 @@ export const createMusicPage: RequestHandler = async (req, res, next) => {
             } catch (error) {
                 console.log(error);
             }
+        } else {
+            // return pageId that matches existingArtistPage || existingTrackPage
         }
     } else {
         res.status(400).send('cannot find artistId nor trackId')
