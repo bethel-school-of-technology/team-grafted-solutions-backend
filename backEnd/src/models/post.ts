@@ -1,9 +1,11 @@
 import { DataTypes, InferAttributes, InferCreationAttributes, Model, Sequelize } from "sequelize";
 import { User } from "./user";
 import moment from 'moment';
+import { MusicPage } from "./musicPage";
 
 export class Post extends Model<InferAttributes<Post>, InferCreationAttributes<Post>>{
     declare postId: number;
+    declare pageId: number;
     declare userId: string;
     declare display_name: string;
     declare title: string;
@@ -18,6 +20,10 @@ export function PostFactory(sequelize: Sequelize) {
             type: DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true,
+            allowNull: false
+        },
+        pageId: {
+            type: DataTypes.INTEGER,
             allowNull: false
         },
         userId: {
@@ -56,4 +62,9 @@ export function PostFactory(sequelize: Sequelize) {
 export function AssociateUserPost() {
     User.hasMany(Post, { foreignKey: 'userId' });
     Post.belongsTo(User, { foreignKey: 'userId' });
+}
+
+export function AssociateMusicPagePosts() {
+    MusicPage.hasMany(Post, { foreignKey: 'pageId' });
+    Post.belongsTo(MusicPage, { foreignKey: 'pageId' });
 }

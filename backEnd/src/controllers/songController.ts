@@ -25,6 +25,7 @@ export const currentUserSongs: RequestHandler = async (req, res, next) => {
   }).then((response) => {
     res.status(200).json(response)
   })
+  return songs;
 }
 
 export const getAllSongs: RequestHandler = async (req, res, next) => {
