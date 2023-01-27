@@ -1,10 +1,8 @@
-import { getRounds } from 'bcrypt'
 import { RequestHandler } from 'express'
 import { MusicPage } from '../models/musicPage'
 import { Post } from '../models/post'
 import { User } from '../models/user'
 import { verifyUser } from '../services/auth'
-import { createMusicPage } from './musicPageController'
 
 export const getAllPosts: RequestHandler = async (req, res, next) => {
   let posts = await Post.findAll()
@@ -42,16 +40,12 @@ export const createPost: RequestHandler = async (req, res, next) => {
   if (!trackId && !artistId) {
     res.status(400).send('cannot find artistId and trackId')
   }
-  // check if the page exist
+  
   const musicPage = await getOrCreateMusicPage(trackId, artistId, req.body)
 
   if (!musicPage) {
     return res.status(400).send('music page not created');
   }
-
-
-
-  // let page: MusicPage | null = await createMusicPage(req, res, next);
 
   let newPost: Post = req.body;
   newPost.userId = user.userId;
@@ -69,32 +63,33 @@ export const createPost: RequestHandler = async (req, res, next) => {
 }
 
 const getOrCreateMusicPage = async (artistId: string, trackId: string, body?: any) => {
+  if (artistId) {
+    const existingArtistPage = await MusicPage.findOne({ where: { artistId: artistId } });
+    if (existingArtistPage) {
+      return existingArtistPage;
+    }
+  }
 
-  if (artistId || trackId) {
-      const existingArtistPage = await MusicPage.findOne({ where: { artistId: artistId } });
-      if (existingArtistPage) {
-        return existingArtistPage;
-      }
-
-      const existingTrackPage = await MusicPage.findOne({ where: { trackId: trackId } });
+  if (trackId) {
+    const existingTrackPage = await MusicPage.findOne({ where: { trackId: trackId } });
       if (existingTrackPage) {
         return existingTrackPage;
       }
-   
-          try {
-            let newPage: MusicPage = body;
-            newPage.artistId = artistId;
-            newPage.trackId = trackId;
-              let created = await MusicPage.create(newPage)
-              return created;
-          } catch (error) {
-              console.log(error);
-          }
-      }
-  else {
-      return null;
   }
+  
+  try {
+    let newPage: MusicPage = body;
 
+    newPage.artistId = artistId;
+    newPage.trackId = trackId;
+
+    let created = await MusicPage.create(newPage)
+    return created;
+  } catch (error) {
+    console.log(error);
+  }
+  
+  return null;
 }
 
 export const editPost: RequestHandler = async (req, res, next) => {
