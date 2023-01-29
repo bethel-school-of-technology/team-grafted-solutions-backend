@@ -8,8 +8,8 @@ const spotifyApi = new SpotifyWebApi({
 })
 
 export const verifyUser: RequestHandler = async (req: Request) => {
-    let token = req.headers.authorization?.split(' ')[1];
-    // console.log(token); // working
+    // let token = req.headers.authorization?.split(' ')[1];
+    let token = req;
   
     spotifyApi.setAccessToken(token)
 

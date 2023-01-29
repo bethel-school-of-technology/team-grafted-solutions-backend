@@ -15,7 +15,7 @@ export const getOneMessage: RequestHandler =async (req, res, next) => {
 }
 
 export const createMessage: RequestHandler = async (req, res, next) => {
-  let user: User | null = await verifyUser(req, res, next);
+  let user: User | null = await verifyUser(req.body.token, res, next);
 
   if (!user) {
     return res.status(403).send('User not detected.')
