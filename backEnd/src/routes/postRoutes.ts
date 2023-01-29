@@ -1,5 +1,4 @@
 import { Router } from 'express';
-import { createMusicPage } from '../controllers/musicPageController';
 import { createPost, deletePost, editPost, getAllPosts, getOnePost, getPostsByUser } from '../controllers/postController';
 
 const router = Router();
